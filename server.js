@@ -28,3 +28,12 @@ app.get("/form", (req, res) => {
   res.render('form');
 })
 
+app.get("/cats/:cat", (req, res) => {
+  var cats_details = [
+    {id: 0, name: "Cuddles", fav_food: "Spagehitti", age: "3", slp_spots: ["under the bed", "in a sunbeam"]},
+    {id: 1, name: "Bubbles", fav_food: "Spagehitti", age: "4", slp_spots: ["under the bed", "in a sunbeam"]},
+    {id: 2, name: "Noodles", fav_food: "Spagehitti", age: "5", slp_spots: ["under the bed", "in a sunbeam"]},
+  ];
+  
+  res.render('details', {cat: cats_details[req.params.cat]});
+})

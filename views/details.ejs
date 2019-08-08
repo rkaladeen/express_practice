@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Cats</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark mb-3">
+    <a class="navbar-brand text-light" href="/">Express</a>
+  </nav>
+  <div class="container">
+    <div class="jumbotron pt-2 w-50 mx-auto text-center">
+      <h1 class="jumbotron bg-dark text-light py-2 mt-3">Details Page for <%= cat.name %></h1>
+      <img src="/images/cat<%= cat.id %>.jpg" alt="<%= cat.name %>" class="cat">
+      <h3 class="jumbotron bg-light py-2 mt-3">Favorite food: <%= cat.fav_food %></h3>
+      <h3 class="jumbotron bg-light py-2 mt-3">Age: <%= cat.age %></h3>
+      <div class="jumbotron bg-secondary py-2 mt-3">
+        <h5>Sleeping Spots: </h5>
+        <% for (var spot in cat.slp_spots) { %>
+          <li class="my-1"><%= cat.slp_spots[spot] %></li>
+        <% } %>
+      </div>
+      <a href="/cats" class="btn btn-primary btn-block">More Cats</a>
+    </div>
+  </div>
+</body>
+</html>
