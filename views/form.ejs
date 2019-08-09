@@ -13,8 +13,8 @@
     <a class="navbar-brand text-light" href="/">Express</a>
   </nav>
   <div class="container">
-    <form class="jumbtron mt-3 p-5 shadow-sm bg-light" action="#">
-      <h3 class="jumbotron py-2 bg-warning">User Form</h3>
+    <form class="jumbtron mt-3 p-5 shadow-sm bg-light" action="/add_user" method="POST">
+      <h3 class="jumbotron py-2 bg-warning">Register</h3>
       <div class="form-group">
         <label for="fname">First Name</label>
         <input type="text" class="form-control" id="fname" name="fname">
@@ -22,6 +22,18 @@
       <div class="form-group">
         <label for="lname">Last Name</label>
         <input type="text" class="form-control" id="lname" name="lname">
+      </div>
+      <div class="form-group">
+        <label for="em">Email</label>
+        <input type="text" class="form-control" id="em" name="em">
+      </div>
+      <div class="form-group">
+        <label for="pw">Password</label>
+        <input type="password" class="form-control" id="pw" name="pw">
+      </div>
+      <div class="form-group">
+        <label for="cpw">Confirm Password</label>
+        <input type="password" class="form-control" id="cpw" name="cpw">
       </div>
       <input type="submit" class="btn btn-primary" value="Submit">
     </form>
