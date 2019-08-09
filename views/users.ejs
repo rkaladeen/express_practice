@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Form</title>
+  <title>Home</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/e2cd4330ca.js"></script>
@@ -21,35 +21,35 @@
         <a class="nav-link text-light" href="/">Home</a>
       </li>
       <li class="nav-item">
-          <a class="nav-link text-light" href="/users">Users</a>
+        <a class="nav-link text-light" href="/users">Users</a>
       </li>
     </ul>
   </nav>
   <div class="container">
-    <form class="jumbtron mt-3 p-5 shadow-sm bg-light" action="/add_user" method="POST">
-      <h3 class="jumbotron py-2 bg-warning">Register</h3>
-      <div class="form-group">
-        <label for="fname">First Name</label>
-        <input type="text" class="form-control" id="fname" name="fname">
-      </div>
-      <div class="form-group">
-        <label for="lname">Last Name</label>
-        <input type="text" class="form-control" id="lname" name="lname">
-      </div>
-      <div class="form-group">
-        <label for="em">Email</label>
-        <input type="text" class="form-control" id="em" name="em">
-      </div>
-      <div class="form-group">
-        <label for="pw">Password</label>
-        <input type="password" class="form-control" id="pw" name="pw">
-      </div>
-      <div class="form-group">
-        <label for="cpw">Confirm Password</label>
-        <input type="password" class="form-control" id="cpw" name="cpw">
-      </div>
-      <input type="submit" class="btn btn-primary" value="Submit">
-    </form>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Full Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (var id = 0; id < userss.length; id++) { %>
+        <tr>
+          <th scope="row"><%= userss[id].id %></th>
+          <td><%= userss[id].fname %>&nbsp;<%= userss[id].lname %></td>
+          <td><%= userss[id].em %></td>
+          <td>
+              <a href="/view_user/<%= userss[id].id %>" class="far fa-eye btn-lg btn-link text-secondary"></a>
+              <a href="#" class="far fa-edit btn-lg btn-link text-warning"></a>
+              <a href="/delete_user/<%= userss[id].id %>" class="fas fa-trash-alt btn-lg btn-link text-danger"></a>
+            </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
   </div>
 </body>
 </html>

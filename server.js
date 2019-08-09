@@ -1,6 +1,14 @@
 const express = require("express");
 const app = express();
 
+//Global Variables
+var users = [];
+
+//Global Functions
+function getUserId() {
+  return users.length + 100;
+};
+
 //Settings
 app.listen(8000, () => console.log("listening on port 8000"));
 //Required to add POST data
@@ -31,6 +39,9 @@ app.set('view options', { layout: false })
 
 /////////////App Counter////////////////
   app.get('/', (req, res) => {
+    if (isNaN(req.session.amt) === true){
+      req.session.amt = 1;
+    }
     req.session.amt += 1;
     res.render('index', {visit: req.session.amt});
   });
@@ -68,19 +79,32 @@ app.get("/cats/:cat", (req, res) => {
   res.render('details', {cat: cats_details[cat]});
 })
 
-//Using Session POST
+/////////USER REGISTRATION/////////////
+//Using POST
 app.post('/add_user', (req, res) => {
-  console.log(req.body)
-  req.session.fname = req.body.fname;
-  req.session.lname = req.body.lname;
-  req.session.em = req.body.em;
-  res.redirect('/view_user')
+  // new_user = req.body.fname;
+  user_id = getUserId();
+  user_info = req.body;
+  user_info.id = user_id;
+  users.push(user_info)
+  console.log(user_info);
+  res.redirect("/view_user/"+user_id);
 });
 
-//Using Session GET
-app.get('/view_user', (req, res) => {
-  console.log("First Name: ", req.session.fname);
-  console.log("Last Name: ", req.session.lname);
-  console.log("Email: ", req.session.em);
-  res.render('user', {title: "my profile page", user: {fname: req.session.fname, lname: req.session.lname, em: req.session.em}});
+//Using GET
+app.get('/view_user/:uid', (req, res) => {
+  const { uid } = req.params;
+  console.log("VIEWING" + users[uid-100].fname);
+  res.render('user', {user: users[uid-100]});
+});
+
+app.get('/users', (req, res) => {
+  res.render('users', {userss: users});
+});
+
+app.get('/delete_user/:uid', (req, res) => {
+  const { uid } = req.params;
+  console.log("DELTED " + users[uid-100].fname);
+  users.splice(uid-100,1);
+  res.redirect("/users");
 });
