@@ -10,7 +10,9 @@
   <script src="https://kit.fontawesome.com/e2cd4330ca.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="css/main.css">
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script src="js/ajax.js" ></script>
+  <script src="js/main.js" ></script>
   
 </head>
 <body>
@@ -33,9 +35,9 @@
       <a href="/cats" class="col m-3 jumbotron btn btn-success bg-success"><h2 class="d-inline">Cats</h2></a>
       <a href="/form" class="col m-3 jumbotron btn btn-secondary bg-secondary"><h2 class="d-inline">Register</h2></a>
     </div>
-    <div class="row fixed-bottom ml-4">
+    <div class="row">
       <div class="jumbotron py-2 text-center">
-        <h5 class="jumbotron bg-dark text-light py-2 my-3">Page Visit Counter Widget</h5>
+        <h5 class="jumbotron bg-dark text-light py-2 my-3">Visit Count Widget (AJAX)</h5>
         <h2 id="count" class="jumbotron p-1 m-1 w-25 mx-auto"><%= visit %></h2>
         <div class="row">
           <button id="plus_two" class="col btn btn-warning m-3 btn-sm shadow"><strong>+2 Visit</strong></button>
@@ -43,6 +45,18 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="jumbotron py-2 text-center">
+        <h5 class="jumbotron bg-dark text-light py-2 my-3">Button Game (Socket.io)</h5>
+        <h2 id="epic_wid" class="jumbotron p-1 m-1 w-25 mx-auto">0</h2>
+        <div class="row">
+          <button id="epic_btn" class="col btn btn-primary m-3 btn-sm shadow"><strong>Epicness</strong></button>
+          <button id="epic_reset" class="col btn btn-secondary m-3 btn-sm shadow"><strong>Reset</strong></button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </body>
 </html>

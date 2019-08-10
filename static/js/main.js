@@ -34,3 +34,26 @@ function reg_res() {
   clearRegForm();
 }
 
+//Epic Button
+
+  
+$(document).ready(function(){
+  $('#epic_btn').click(function() {
+    var socket = io(); 
+    // console.log("CLICKED EPIC");
+    socket.emit('epic_click', {click: 1});
+    socket.on('click_dis', function (data) {
+      // console.log(data.c_dis);
+      $('#epic_wid').text(data.c_dis);
+    })
+  }) 
+  $('#epic_reset').click(function() {
+    var socket = io(); 
+    // console.log("CLICKED RESET");
+    socket.emit('epic_reset', {click: 0});
+    socket.on('click_dis', function (data) {
+      // console.log(data.c_dis);
+      $('#epic_wid').text(data.c_dis);
+    })
+  }) 
+})

@@ -1,3 +1,4 @@
+//Middlewares
 const express = require("express");
 const app = express();
 const server = app.listen(8000, () => console.log("listening on port 8000"));
@@ -5,6 +6,7 @@ const io = require('socket.io')(server);
 
 //Global Variables
 var users = [];
+var epic_click = 0;
 
 //Global Functions
 function getUserId() {
@@ -29,14 +31,11 @@ app.use(session({
   secret: 'keyboardkitteh',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 3600000 }
 }));
 
 // static files
 app.use(express.static(__dirname + "/static"));
-
-
-
 
 // Views
 app.engine('html', require('ejs').renderFile);
@@ -100,7 +99,6 @@ app.get("/cats/:cat", (req, res) => {
 //   res.redirect("/view_user/"+user_id);
 // });
 
-//Using GET
 app.get('/view_user/:uid', (req, res) => {
   const { uid } = req.params;
   console.log("VIEWING" + users[uid-100].fname);
@@ -124,18 +122,30 @@ app.get('/chat', (req, res) => {
 
 //Socket Implemetation
 io.on('connection', function (socket) { 
-  // socket.emit('greeting', { msg: 'Greetings, from server Node, brought to you by Sockets! -Server' }); 
-  // socket.on('thankyou', function (data) { 
-  //   console.log(data.msg); 
-  // });
+  socket.emit('greeting', { msg: 'Greetings, from server Node, brought to you by Sockets! -Server' }); 
+  socket.on('thankyou', function (data) { 
+    console.log(data.msg); 
+  });
 
   socket.on('posting_form', function (data) { 
     console.log(data.form_info); 
     user_id = getUserId();
     user_info = data.form_info;
     user_info.id = user_id;
-    users.push(user_info)
+    users.push(user_info);
     socket.emit('updated_message', {user: getLastUserAdded(users)}); 
-    socket.emit('random_number', { ran: Math.floor(Math.random() * 1000) + 1 }); 
+    socket.emit('random_number', { ran: Math.floor(Math.random() * 1000) + 1 });
   });
+
+  socket.on('epic_click', function (data) {
+    epic_click += data.click;
+    // console.log(data.click);
+    socket.emit('click_dis', { c_dis: epic_click });
+  })
+
+  socket.on('epic_reset', function (data) {
+    epic_click = data.click;
+    // console.log(data.click);
+    socket.emit('click_dis', { c_dis: epic_click });
+  })
 });
