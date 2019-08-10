@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const server = app.listen(8000, () => console.log("listening on port 8000"));
+const io = require('socket.io')(server);
 
 //Global Variables
 var users = [];
@@ -9,8 +11,15 @@ function getUserId() {
   return users.length + 100;
 };
 
-//Settings
-app.listen(8000, () => console.log("listening on port 8000"));
+function getLastUserAdded(arr) {
+  var user_info = {};
+  if (arr === undefined || arr.length == 0) {user_info.id = "None"}
+  else if (arr.length == 1) {user_info = arr[0]}
+  else {user_info = arr[arr.length-1]}
+  return user_info;
+}
+
+
 //Required to add POST data
 app.use(express.urlencoded({extended: true}));
 
@@ -47,13 +56,13 @@ app.set('view options', { layout: false })
   });
   
   app.get('/plus_two', (req, res) => {
-    req.session.amt += 1;
-    res.redirect('/');
+    req.session.amt += 2;
+    res.render('partials/counter', {visit: req.session.amt});
   });
 
   app.get('/reset', (req, res) => {
-    req.session.amt = 0;
-    res.redirect('/');
+    req.session.amt = 1;
+    res.render('partials/counter', {visit: req.session.amt});
   });
 ////////////////////////////////////
 app.get("/cars", (req, res) => {
@@ -65,7 +74,7 @@ app.get("/cats", (req, res) => {
 })
 
 app.get("/form", (req, res) => {
-  res.render('form');
+  res.render('register');
 })
 
 // Example of getting variables from route parameters
@@ -81,15 +90,15 @@ app.get("/cats/:cat", (req, res) => {
 
 /////////USER REGISTRATION/////////////
 //Using POST
-app.post('/add_user', (req, res) => {
-  // new_user = req.body.fname;
-  user_id = getUserId();
-  user_info = req.body;
-  user_info.id = user_id;
-  users.push(user_info)
-  console.log(user_info);
-  res.redirect("/view_user/"+user_id);
-});
+// app.post('/add_user', (req, res) => {
+//   // new_user = req.body.fname;
+//   user_id = getUserId();
+//   user_info = req.body;
+//   user_info.id = user_id;
+//   users.push(user_info)
+//   console.log(user_info);
+//   res.redirect("/view_user/"+user_id);
+// });
 
 //Using GET
 app.get('/view_user/:uid', (req, res) => {
@@ -107,4 +116,26 @@ app.get('/delete_user/:uid', (req, res) => {
   console.log("DELTED " + users[uid-100].fname);
   users.splice(uid-100,1);
   res.redirect("/users");
+});
+
+app.get('/chat', (req, res) => {
+  res.render('chat');
+});
+
+//Socket Implemetation
+io.on('connection', function (socket) { 
+  // socket.emit('greeting', { msg: 'Greetings, from server Node, brought to you by Sockets! -Server' }); 
+  // socket.on('thankyou', function (data) { 
+  //   console.log(data.msg); 
+  // });
+
+  socket.on('posting_form', function (data) { 
+    console.log(data.form_info); 
+    user_id = getUserId();
+    user_info = data.form_info;
+    user_info.id = user_id;
+    users.push(user_info)
+    socket.emit('updated_message', {user: getLastUserAdded(users)}); 
+    socket.emit('random_number', { ran: Math.floor(Math.random() * 1000) + 1 }); 
+  });
 });

@@ -10,6 +10,8 @@
   <script src="https://kit.fontawesome.com/e2cd4330ca.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="css/main.css">
+  <script src="js/ajax.js" ></script>
+  
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-dark mb-3 py-0">
@@ -34,10 +36,10 @@
     <div class="row fixed-bottom ml-4">
       <div class="jumbotron py-2 text-center">
         <h5 class="jumbotron bg-dark text-light py-2 my-3">Page Visit Counter Widget</h5>
-        <h2 class="jumbotron p-1 m-1 w-25 mx-auto"><%= visit %></h2>
+        <h2 id="count" class="jumbotron p-1 m-1 w-25 mx-auto"><%= visit %></h2>
         <div class="row">
-          <a class="col btn btn-warning m-3 btn-sm shadow" href="/plus_two/"><strong>+2 Visit</strong></a>
-          <a class="col btn btn-secondary m-3 btn-sm shadow" href="/reset/"><strong>Reset</strong></a>
+          <button id="plus_two" class="col btn btn-warning m-3 btn-sm shadow"><strong>+2 Visit</strong></button>
+          <button id="reset" class="col btn btn-secondary m-3 btn-sm shadow"><strong>Reset</strong></button>
         </div>
       </div>
     </div>

@@ -10,6 +10,8 @@
   <script src="https://kit.fontawesome.com/e2cd4330ca.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="css/main.css">
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script src="js/main.js" ></script>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-dark mb-3 py-0">
@@ -17,39 +19,31 @@
       <img class="logo" src="images/mean_logo.png" alt="mean logo">
     </a>
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link text-light" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link text-light" href="/users">Users</a>
-      </li>
+      <li class="nav-item active"><a class="nav-link text-light" href="/">Home</a></li>
+      <li class="nav-item"><a class="nav-link text-light" href="/users">Users</a></li>
     </ul>
   </nav>
   <div class="container">
-    <form class="jumbtron mt-3 p-5 shadow-sm bg-light" action="/add_user" method="POST">
-      <h3 class="jumbotron py-2 bg-warning">Register</h3>
-      <div class="form-group">
+    <div class="jumbtron mt-3 p-5 bg-light">
+      <h3 class="jumbotron py-2 bg-warning">Register</h3>   
         <label for="fname">First Name</label>
-        <input type="text" class="form-control" id="fname" name="fname">
-      </div>
-      <div class="form-group">
+        <input type="text" class="form-control mb-2" id="fname" name="fname">
         <label for="lname">Last Name</label>
-        <input type="text" class="form-control" id="lname" name="lname">
-      </div>
-      <div class="form-group">
+        <input type="text" class="form-control mb-2" id="lname" name="lname">
         <label for="em">Email</label>
-        <input type="text" class="form-control" id="em" name="em">
-      </div>
-      <div class="form-group">
+        <input type="text" class="form-control mb-2" id="em" name="em">
         <label for="pw">Password</label>
-        <input type="password" class="form-control" id="pw" name="pw">
-      </div>
-      <div class="form-group">
+        <input type="password" class="form-control mb-2" id="pw" name="pw">
         <label for="cpw">Confirm Password</label>
-        <input type="password" class="form-control" id="cpw" name="cpw">
-      </div>
-      <input type="submit" class="btn btn-primary" value="Submit">
-    </form>
+        <input type="password" class="form-control mb-2" id="cpw" name="cpw">
+      <button id="add_user" class="btn btn-primary" onclick="reg_res()">Submit</button>
+    </div>
+    <div class="jumbotron mt-3 p-5 alert-success d-none" id="reg_info">
+      <p>You emitted the following information to the server: 
+        <span id="emit_user_info"></span></p>
+      <p>Your lucky number emitted by the server is 
+        <span id="ran_num"></span>.</p>
+    </div>
   </div>
 </body>
 </html>
