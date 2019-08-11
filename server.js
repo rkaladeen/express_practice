@@ -6,7 +6,11 @@ const io = require('socket.io')(server);
 
 //Global Variables
 var users = [];
+var joined_users = [];
 var epic_click = 0;
+//Global Variables for Chat App
+var chat_name = "";
+var message_id = 1;
 
 //Global Functions
 function getUserId() {
@@ -44,7 +48,6 @@ app.set('views', __dirname + '/views');
 app.set('view options', { layout: false })
 
 //Paths
-
 /////////////App Counter////////////////
   app.get('/', (req, res) => {
     if (isNaN(req.session.amt) === true){
@@ -74,6 +77,10 @@ app.get("/cats", (req, res) => {
 
 app.get("/form", (req, res) => {
   res.render('register');
+})
+
+app.get("/chat_room", (req, res) => {
+  res.render('chat', {myself: chat_name});
 })
 
 // Example of getting variables from route parameters
@@ -120,12 +127,13 @@ app.get('/chat', (req, res) => {
   res.render('chat');
 });
 
-//Socket Implemetation
+//Web Socket Implemetations with Socket.io
 io.on('connection', function (socket) { 
   socket.emit('greeting', { msg: 'Greetings, from server Node, brought to you by Sockets! -Server' }); 
   socket.on('thankyou', function (data) { 
     console.log(data.msg); 
   });
+  socket.emit('joined_users', { joined_users: users });
 
   socket.on('posting_form', function (data) { 
     console.log(data.form_info); 
@@ -147,5 +155,13 @@ io.on('connection', function (socket) {
     epic_click = data.click;
     // console.log(data.click);
     socket.emit('click_dis', { c_dis: epic_click });
+  })
+
+  socket.on('user_join', function (data) {
+    data.user.id = getUserId();
+    users.push(data.user);
+    console.log("USER " + getLastUserAdded(users).name);
+    socket.emit('joined_list', { joined_users: users });
+    socket.broadcast.emit('update_all', { joined_user: getLastUserAdded(users) });
   })
 });
