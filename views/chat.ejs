@@ -36,7 +36,7 @@
     <div class="jumbotron mt-5 col-lg-6 mx-auto">
       <h4>Welcome to the Chat Room</h4>
       <label for="name">What is your Name:</label>
-      <input type="text" id="name" class="form-control" value="<%= myself %>"/>
+      <input type="text" id="name" class="form-control">
       <div class="invalid-feedback d-none" id="valid_name">
         Please provide a name with more than 2 characters.
       </div>
@@ -50,34 +50,16 @@
   <div class="container d-none" id="chat_room">
     <div class="row">
     
-      <div class="jumbotron pt-3 pb-0 col-lg-4">
+      <div class="jumbotron py-3 col-lg-4 h-100">
       <h4 class="text-center jumbotron p-2 m-0 bg-dark text-muted">Users Joined</h4>
       <div id="joined_users"></div>
       </div>
 
-      <div class="jumbotron mt-5 py-3 px-3 col-lg-7 offset-lg-1">
+      <div class="jumbotron py-3 px-3 col-lg-7 offset-lg-1 h-100">
         <div id="messages" class="row jumbotron bg-light mx-1 mb-1 p-1">
           <h4 class="text-center jumbotron p-2 m-0 mb-1 col-12 bg-dark text-muted">Wall</h4>
         
-            <div class="jumbotron bg-primary my-1 col-8 p-2 ml-auto">
-              <div class="row">
-                <p class="mb-0 col-10 text-light">message</p>
-                <div class="col-2 text-right">
-                  <button id="ATTENTION" type="button" class="btn fas fa-trash-alt text-danger"
-                    style="background: none" onclick="delete_message(this.id);"></button>
-                </div>
-              </div>
-              <small class="text-light text-right d-block">
-                message.sender.name 
-                | message.sent_at </small>
-            </div>
-          
-            <div class="jumbotron my-1 col-8 p-2 mr-auto">
-              <p class="mb-0">message</p>
-              <small class="text-muted text-right d-block">
-                message.sender.name
-                | message.sent_at </small>
-            </div>
+            
           
         </div>
       

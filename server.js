@@ -10,7 +10,7 @@ var joined_users = [];
 var epic_click = 0;
 //Global Variables for Chat App
 var chat_name = "";
-var message_id = 1;
+var messages = [];
 
 //Global Functions
 function getUserId() {
@@ -133,7 +133,6 @@ io.on('connection', function (socket) {
   socket.on('thankyou', function (data) { 
     console.log(data.msg); 
   });
-  socket.emit('joined_users', { joined_users: users });
 
   socket.on('posting_form', function (data) { 
     console.log(data.form_info); 
@@ -157,11 +156,28 @@ io.on('connection', function (socket) {
     socket.emit('click_dis', { c_dis: epic_click });
   })
 
+  //This IO saves joining users, return joined user info with assigned ID and broadcast to all other joined_users
   socket.on('user_join', function (data) {
     data.user.id = getUserId();
     users.push(data.user);
-    console.log("USER " + getLastUserAdded(users).name);
+    //This emit render's user list when user joins existing room
     socket.emit('joined_list', { joined_users: users });
+    //This emit render's msg list when user joins existing room
+    socket.emit('posted_msgs', { p_msgs: messages });
     socket.broadcast.emit('update_all', { joined_user: getLastUserAdded(users) });
+    socket.on('disconnect', function () {
+      socket.broadcast.emit('left_room', { left_user: getLastUserAdded(users) });
+      console.log(data.user.name + " LEFT CHAT ROOM")
+    })
   })
+
+  
+  //This IO saves incoming post and broadcast to all other joined_users
+  socket.on('msg_send', function (data) {
+    messages.push(data.msg);
+    socket.broadcast.emit('update_msg_wall', { msg: getLastUserAdded(messages)});
+  })
+
+  
+
 });
